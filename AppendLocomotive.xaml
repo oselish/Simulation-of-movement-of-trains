@@ -1,0 +1,28 @@
+﻿<Window x:Name="EditLocomotive" x:Class="lab6OOP.AppendLocomotive"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab6OOP"
+        mc:Ignorable="d"
+        Title="Добавление локомотива" Height="140" Width="430" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="22*"/>
+			<ColumnDefinition Width="49*"/>
+		</Grid.ColumnDefinitions>
+		<Label Content="Номер маршрута" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Width="106"/>
+		<Label Content="Тип электропоезда" HorizontalAlignment="Left" VerticalAlignment="Center" Height="26" Width="114" Grid.Row="1"/>
+		<Label Content="ID" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Center"/>
+		<ComboBox x:Name="routeNumComboBox" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="269" Height="22" Margin="11,0,0,0"/>
+		<ComboBox x:Name="locoEngineTypeComboBox" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="269" Height="22" Margin="11,0,0,0"/>
+		<Button x:Name="OKButton" Grid.Column="1" Content="OK" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="70" Height="20" Click="OKButton_Click" Margin="210,0,0,0"/>
+		<TextBox x:Name="locoIDTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="11,0,0,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" Width="269"/>
+	</Grid>
+</Window>
