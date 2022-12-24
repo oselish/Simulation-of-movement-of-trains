@@ -21,24 +21,6 @@ namespace lab6OOP
 	/// </summary>
 	public partial class EditWagon : Window
 	{
-		/*
-		DataGrid wagonDataGrid;
-		DataGrid TrainsDataGrid;
-		Locomotive loco;
-		Canvas visualizationCanvas;
-		Label DateTimeLabel;
-		public EditWagon(DataGrid wagonDataGrid, Locomotive loco, DataGrid TrainsDataGrid, Canvas visualizationCanvas, Label DateTimeLabel)
-		{
-			InitializeComponent();
-			foreach (var type in Passenger.WagonTypes)
-				wagonTypeComboBox.Items.Add(type);
-			
-			this.wagonDataGrid = wagonDataGrid;
-			this.loco = loco;
-			this.TrainsDataGrid = TrainsDataGrid;
-			this.visualizationCanvas = visualizationCanvas;
-			this.DateTimeLabel = DateTimeLabel;
-		}*/
 		MainWindow window;
 		Locomotive loco;
 		public EditWagon(MainWindow window)

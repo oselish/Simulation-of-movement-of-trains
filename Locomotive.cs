@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace lab6OOP
 {
@@ -20,88 +21,57 @@ namespace lab6OOP
         directCurrent, alternatingCurrent
 	}
 
-    /// <summary>
-    /// Тягач состава
-    /// </summary>
-	 
+    [Serializable]
     public class Locomotive : Wagon, IComparable
     {
-        /// <summary>
-        /// Типы электропоездов
-        /// </summary>
+        //Типы электропоездов
         public static string[] types = { "Постоянного тока", "Переменного тока" };
 
 
-        /// <summary>
-        /// Маршрут
-        /// </summary>
-        private Station[] route;
-		public Station[] Route { get; set; }
-
-		/// <summary>
-		/// Макс скорость локомотива
-		/// </summary>
+        // Маршрут
+        public Station[] Route;
+		
+        // Макс скорость локомотива
 		private double maxSpeed;
 		public double MaxSpeed { get; set; }
-
-		/// <summary>
-		/// Текущвая скорость локомотива
-		/// </summary>
+		
+        // Текущвая скорость локомотива
 		private double speed = 0;
         public double Speed { get; set; } = 0;
-
-		/// <summary>
-		/// Максимальное кол-во вагонов
-		/// </summary>
+		
+        // Максимальное кол-во вагонов
 		private int maxWagonsAmount;
 		public int MaxWagonsAmount { get; set; }
-
-		/// <summary>
-		/// Тип двигателя
-		/// Паровоз, электровоз, тепловоз
-		/// </summary>
+		
+        // Тип двигателя
 		private string engineType;
 		public string EngineType { get; set; }
 
-		/// <summary>
-		/// Время запаздывания в минутах
-		/// </summary>
+		// Время запаздывания в минутах
 		private int lateTime = 0;
         public int LateTime { get; set; } = 0;
-
-		/// <summary>
-		/// Номер маршрута
-		/// </summary>
+		
+        // Номер маршрута
 		private int routeNum;
 		public int RouteNum { get; set; }
 
-		/// <summary>
-		/// Текущая станция
-		/// </summary>
+		// Текущая станция
 		private Station currentStation;
 		public Station CurrentStation { get; set; }
-
-        /// <summary>
-		/// Первая станция
-		/// </summary>
+		
+        // Первая станция
 		private Station firstStation;
         public Station FirstStation { get; set; }
 
-        /// <summary>
-        /// Конечная станция
-        /// </summary>
+        // Конечная станция
         private Station lastStation;
 		public Station LastStation { get; set; }
 
-        /// <summary>
-		/// Следующая станция
-		/// </summary>
-		private Station nextStation;
+        // Следующая станция
+        private Station nextStation;
         public Station NextStation { get; set; }
 
-        /// <summary>
-        /// Тип локомотива - шанс добавления в состав
-        /// </summary>
+        // Тип локомотива - шанс добавления в состав
         public static Dictionary<int, Engines> locomotiveTypes = new Dictionary<int, Engines>()
         {
 			//Текущ. ключ = пред. ключ - пред. шанс
@@ -109,9 +79,7 @@ namespace lab6OOP
             { 100, Engines.directCurrent      }  //Шанс добавления - 60%
         };
 
-        /// <summary>
-        /// Происшествие на путях, в поезде и т.п.
-        /// </summary>
+        // Происшествие на путях, в поезде и т.п.
         private string incident;
 		public string Incident
         {
@@ -129,11 +97,7 @@ namespace lab6OOP
 
         public DateTime timeOfStart { get; set; } = MainWindow.TIME;
 
-        /// <summary>
-        /// Получение характеристик по типу двигателя
-        /// </summary>
-        /// <param name="EngineType"></param>
-        /// <exception cref="Exception"></exception>
+        // Получение характеристик по типу двигателя
         private void SetStats(string EngineType)
 		{
             if (EngineType == types[(int)Engines.directCurrent])
@@ -152,28 +116,29 @@ namespace lab6OOP
             }
         }
 
+        public double TimeOfStop { get; set; }
 
-        /// <summary>
-        /// ID
-        /// </summary>
+
+        // ID
         public string ID { get; set; }
 
         public double x { get; set; }
         public double y { get; set; }
 
+        [NonSerialized]
+        [XmlIgnore]
         public Ellipse point;
 
         public static int pointRadius = 3;
         public static int borderThickness = 2;
 
-        public SolidColorBrush pointColor { get; set; }
+		[NonSerialized]
+		[XmlIgnore]
+		public SolidColorBrush pointColor;
 
         public bool OnTheWay { get; set; } = false;
 		
-        /// <summary>
-		/// Копирование локомотива
-		/// </summary>
-		/// <param Name="copyingLocomotive"></param>
+		// Копирование локомотива
 		public Locomotive DeepCopy()
         {
             Locomotive copyingLocomotive = new Locomotive();
@@ -188,13 +153,10 @@ namespace lab6OOP
             return copyingLocomotive;
         }
 
-        public List<Passenger> wagons = new List<Passenger>(); //пассажирские вагоны поезда
+        public List<Passenger> wagons = new List<Passenger>();//пассажирские вагоны поезда
 
-        /// <summary>
-        /// Доступные типы локомотивов:
-        /// Постоянного тока, переменного тока
-        /// </summary>
-        /// <param Name="EngineType"></param>
+        // Доступные типы локомотивов:
+        // Постоянного тока, переменного тока
         public Locomotive(string EngineType, int SerialNum = 0, string Name = "Локомотив") : base(SerialNum, Name)
 		{
             this.EngineType = EngineType;
@@ -224,8 +186,21 @@ namespace lab6OOP
             this.Incident = Incident;
         }
 
+        public void CreatePoint(Canvas visualizationCanvas, SolidColorBrush color)
+		{
+            pointColor = color;
+            point = new Ellipse();
+            point.Width = pointRadius * 2 + borderThickness * 2;
+            point.Height = point.Width;
+            point.Fill = pointColor;
+            point.Stroke = CustomColor.whiteColor;
+            point.StrokeThickness = borderThickness;
+            point.Margin = new Thickness(x - pointRadius - borderThickness, y - pointRadius - borderThickness, 0, 0);
+            visualizationCanvas.Children.Add(point);
+            SetPosition(FirstStation.x, FirstStation.y);
 
-        public Locomotive(string ID, string EngineType, int RouteNum, Canvas visualizationCanvas)
+        }
+        public Locomotive(string ID, string EngineType, int RouteNum, Canvas visualizationCanvas, SolidColorBrush color)
         {
             this.EngineType = EngineType;
             SetStats(EngineType);
@@ -238,18 +213,8 @@ namespace lab6OOP
             this.SerialNum = 0;
             this.Speed = 0;
             this.LateTime = 0;
-            this.pointColor = CustomColor.RandomColor(CustomColor.occupiedColors);
-            
-
-            point = new Ellipse();
-			point.Width = pointRadius * 2 + borderThickness*2;
-			point.Height = point.Width;
-            point.Fill = pointColor;
-			point.Stroke = CustomColor.whiteColor;
-			point.StrokeThickness = borderThickness;
-			point.Margin = new Thickness(x - pointRadius - borderThickness, y - pointRadius - borderThickness, 0, 0);
-			visualizationCanvas.Children.Add(point);
-            SetPosition(FirstStation.x, FirstStation.y);
+            this.pointColor = CustomColor.RandomColor();
+            CreatePoint(visualizationCanvas, color);
         }
 
         public void SetPosition(double x, double y)
@@ -263,8 +228,8 @@ namespace lab6OOP
 		{
             for (int i = 0; i < Route.Length; i++)
 			{
-                if (Route[i] == CurrentStation)
-				{
+                if (Route[i].Name == CurrentStation.Name)
+                {
                     if (i+1 < Route.Length)
                         return Route[i+1];
 				}
@@ -276,10 +241,7 @@ namespace lab6OOP
         ~Locomotive() { }
 
 
-        /// <summary>
-        /// Получение информации о локомотиве
-        /// </summary>
-        /// <returns></returns>
+        // Получение информации о локомотиве
         public override string GetInfo()
 		{
             string info = "";
@@ -346,7 +308,32 @@ namespace lab6OOP
             string engineType = types[(int)ChooseRandomEngineType(locomotiveTypes, typeChance)]; //выбор случайного типа локомотива
 
             int routeNum = random.Next(1, Station.routesAmount);
-            return new Locomotive(ID, engineType, routeNum, visualizationCanvas);
+            return new Locomotive(ID, engineType, routeNum, visualizationCanvas, CustomColor.RandomColor());
         }
-    }
+
+        public void RandomIncident(double timeOfstep)
+		{
+            Dictionary<int, string> incidentDict = new Dictionary<int, string>()
+            {
+                { 1, "Пожар в вагоне"     },
+                { 2, "Буйный пассажир"    },
+                { 3, "Нет электроэнергии" }
+            };
+
+            Dictionary<int, double> timeOfStop = new Dictionary<int, double>()
+            {
+                { 1, 2  },
+                { 2, 1  },
+                { 3, 3 }
+            };
+
+            Random random = new Random();
+            int chance = random.Next(1, 100);
+            if (chance <= incidentDict.Count)
+            {
+                incident = incidentDict[chance];
+                lateTime += (int)(timeOfStop[chance] * 60 / timeOfstep);
+            }
+		}		
+	}
 }

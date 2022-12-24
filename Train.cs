@@ -9,24 +9,6 @@ namespace lab6OOP
 
 	static class Train
 	{
-        /// <summary>
-        /// Выбор случайного типа вагона
-        /// </summary>
-        /// <param Name="dict"></param>
-        /// <returns></returns>
-        
-
-        /// <summary>
-        /// Выбор случайного типа локомотива
-        /// </summary>
-        /// <param Name="dict"></param>
-        /// <returns></returns>
-
-        /// <summary>
-        /// Получение информации о поезде
-        /// </summary>
-        /// <param Name="train"></param>
-        /// <returns></returns>
         public static string GetInfo(this Wagon[] train)
         {
             string info = "";
@@ -41,21 +23,13 @@ namespace lab6OOP
             return info;
         }
 
-        /// <summary>
-        /// Получение локомотива из поезда
-        /// </summary>
-        /// <param Name="train"></param>
-        /// <returns></returns>
+        // Получение локомотива из поезда
         public static Locomotive GetLocomotive(this Wagon[] train)
 		{
             return train[0] as Locomotive;
 		}
 
-        /// <summary>
-        /// Получение вагона из поезда
-        /// </summary>
-        /// <param Name="train"></param>
-        /// <returns></returns>
+        // Получение вагона из поезда
         public static Passenger GetWagon(this Wagon[] train, int wagonSerialNum)
         {
             if (wagonSerialNum < 0)
@@ -67,13 +41,7 @@ namespace lab6OOP
             return null;
         }
 
-        /// <summary>
-        /// Создание поезда
-        /// </summary>
-        /// <param Name="loco"></param>
-        /// <param Name="wagons"></param>
-        /// <param Name="randomGeneration"></param>
-        /// <returns></returns>
+        // Создание поезда
         public static Wagon[] Create(Locomotive loco, Wagon[] wagons)
         {
 
@@ -90,18 +58,7 @@ namespace lab6OOP
         }
 
         
-        /// <summary>
-        /// Генерация рандомного поезда.<br/><br/>
-        /// Указываются самостоятельно:<br/>
-        /// 1. Начальная станция<br/>
-        /// 2. Текущая станция<br/>
-        /// 3. Конечная станция<br/>
-        /// 4. Происшествие<br/>
-        /// 5. Время опаздывания<br/>
-        /// 6. Номер маршрута<br/>
-        /// 7. Текущая скорость
-        /// </summary>
-        /// <returns></returns>
+        // Генерация рандомного поезда
         public static Passenger[] CreateRandom(Locomotive locomotive)
         {
             Random random = new Random();
@@ -134,12 +91,7 @@ namespace lab6OOP
             //Рандомный тип локомотива
             int trainLength = random.Next(40, locomotive.MaxWagonsAmount);   //длина состава от 40 до макс. для локомотива
             Passenger[] result = new Passenger[trainLength];
-            /*
-            var loco = Locomotive.CreateRandom();
 
-            Wagon[] train = new Wagon[trainLength];                          //поезд - массив вагонов
-            train[0] = loco;                                                 //первый вагон - локомотив
-            */
             int typeChance;
 
             //Добавление вагонов к локомотиву
@@ -167,15 +119,6 @@ namespace lab6OOP
                     typeChance = random.Next(1, 100);
                     wagonType = Passenger.ChooseRandomType(passengerWagonTypes, typeChance);
                     Passenger passengerWagon = new Passenger(wagonType, locomotive, ID);
-                    //Passenger passengerWagon = new Passenger
-                    //(
-                    //	Capacity: wagonCapacity[wagonType],
-                    //	Type: wagonType,
-                    //	Loco: loco,
-                    //	SerialNum: i,
-                    //	Name: "Пассажирский вагон"
-
-                    //);
                     passengerWagon.SerialNum = i;
 					passengerWagon.Type = Passenger.ChooseRandomType(passengerWagonTypes, typeChance);
                     result[i] = passengerWagon;
@@ -184,14 +127,6 @@ namespace lab6OOP
                 else
 				{
                     wagonType = Passenger.WagonTypes[6];// Вагон-ресторан;
-                    //Passenger wagonRestaraunt = new Passenger
-                    //(
-                    //    Capacity: wagonCapacity[wagonType],
-                    //    Type: wagonType,
-                    //    Loco: locomotive,
-                    //    SerialNum: wagonRestarauntNum,
-                    //    Name: "Пассажирский вагон"
-                    //);
                     Passenger wagonRestaraunt = new Passenger(wagonType,locomotive, ID);
                     wagonRestaraunt.SerialNum = i;
                     result[wagonRestarauntNum] = wagonRestaraunt;

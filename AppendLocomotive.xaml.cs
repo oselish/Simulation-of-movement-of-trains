@@ -70,7 +70,7 @@ namespace lab6OOP
 					var engineType = locoEngineTypeComboBox.SelectedItem.ToString();
 					int routeNum = RouteDescriptionToInt(routeNumComboBox.SelectedItem.ToString());
 
-					ListOfLocomotives.Insert(new Locomotive(ID, engineType, routeNum, window.visualizationCanvas));
+					ListOfLocomotives.Insert(new Locomotive(ID, engineType, routeNum, window.visualizationCanvas, CustomColor.RandomColor()));
 					
 					window.locoDataGrid.ItemsSource = null;
 					window.locoDataGrid.ItemsSource = ListOfLocomotives.locomotivesForDataGrid;

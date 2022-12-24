@@ -10,28 +10,23 @@ namespace lab6OOP
 	/// Вагон
 	/// </summary>
 	delegate void Message();
+
+	[Serializable]
 	public class Wagon : IInformation, IInformation1
 	{
 		public const int minIDLength = 10;
 		public const int maxIDLength = 10;
 		public const string charsForID = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
-		/// <summary>
-		/// Порядковый номер вагона
-		/// </summary>
+		// Порядковый номер вагона
 		private int serialNum;
 		public int SerialNum { get; set; }
 
-		/// <summary>
-		/// Тип вагона
-		/// </summary>
+		// Тип вагона
 		private string name;
 		public string Name { get; set; }
 
-		/// <summary>
-		/// Отображение информации о вагоне
-		/// </summary>
-		/// <returns></returns>
+		// Отображение информации о вагоне
 		public Wagon(int SerialNum, string Name)
 		{
 			this.Name = Name;

@@ -15,14 +15,16 @@
 			<RowDefinition/>
 		</Grid.RowDefinitions>
 		<TabControl>
-			<TabItem x:Name="LocoTabItem" Header="Локомотив" Width="90">
+			<TabItem x:Name="LocoTabItem" Header="Локомотивы" Width="90">
 				<Grid Background="#FFE5E5E5">
 					<Button x:Name="LocoAddButton" Content="Добавить" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="LocoAddButton_Click"/>
 					<Button x:Name="LocoEditButton" Content="Редактировать" HorizontalAlignment="Left" Margin="105,10,0,0" VerticalAlignment="Top" Width="90" Click="LocoEditButton_Click"/>
 					<Button x:Name="LocoRemoveButton" Content="Удалить" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="LocoRemoveButton_Click"/>
 					<Button x:Name="LocoRandomButton" Content="Сгенерировать случайный" HorizontalAlignment="Left" Margin="295,10,0,0" VerticalAlignment="Top" Width="155" Height="20" Click="LocoRandomButton_Click"/>
 					<DataGrid x:Name="locoDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,35,10,10" SelectionChanged="locoDataGrid_SelectionChanged" IsReadOnly="True"/>
-					<Button x:Name="LocoSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="LocoSerializeButton_Click"/>
+					<Button x:Name="LocoSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="455,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="MainWindowSerializeButton_Click"/>
+					<TextBox x:Name="SearchByIDTextBox" HorizontalAlignment="Right" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" Height="20" TextChanged="SearchByIDTextBox_TextChanged"/>
+					<Label Content="Поиск по ID" HorizontalAlignment="Right" Margin="0,7,315,0" VerticalAlignment="Top"/>
 				</Grid>
 			</TabItem>
 			<TabItem x:Name="wagonTabItem" Header="Вагоны" Width="90">
@@ -35,13 +37,13 @@
 					<DataGrid x:Name="wagonDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,35,10,10" SelectionChanged="wagonDataGrid_SelectionChanged" IsReadOnly="True"/>
 					<Label Content="Локомотив" HorizontalAlignment="Right" Margin="0,7,402,0" VerticalAlignment="Top" Height="25" />
 					<ComboBox x:Name="locoComboBox" HorizontalAlignment="Right" Margin="0,9,10,0" VerticalAlignment="Top" Width="387" SelectionChanged="locoComboBox_SelectionChanged"/>
-					<Button x:Name="WagonSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="615,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="WagonSerializeButton_Click"/>
+					<Button x:Name="WagonSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="615,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="MainWindowSerializeButton_Click"/>
 				</Grid>
 			</TabItem>
 			<TabItem x:Name="TrainsTabItem" Header="Поезда" Width="90" Height="20" VerticalAlignment="Top">
 				<Grid Background="#FFE5E5E5">
 					<DataGrid x:Name="TrainsDataGrid" Margin="10,35,10,10" LoadingRow="TrainsDataGrid_LoadingRow" IsReadOnly="True"/>
-					<Button x:Name="TrainSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="TrainSerializeButton_Click"/>
+					<Button x:Name="TrainSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="MainWindowSerializeButton_Click"/>
 				</Grid>
 			</TabItem>
 			<TabItem x:Name="scheduleTabItem" Header="Расписание" Width="90">
@@ -54,7 +56,7 @@
 			<TabItem x:Name="StationsTabItem" Header="Станции" Width="90">
 				<Grid Background="#FFE5E5E5">
 					<DataGrid x:Name="StationDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,35,10,10" IsReadOnly="True"/>
-					<Button x:Name="StationSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="StationSerializeButton_Click"/>
+					<Button x:Name="StationSerializeButton" Content="Сериализовать" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="90" Height="20" Click="MainWindowSerializeButton_Click"/>
 				</Grid>
 			</TabItem>
 			<TabItem x:Name="VisualizationTabItem" Header="Визуализация" Width="90" Height="20" VerticalAlignment="Top">

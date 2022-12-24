@@ -1,0 +1,15 @@
+﻿<Window x:Name="SerializeWindow1" x:Class="lab6OOP.SerializeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:lab6OOP"
+        mc:Ignorable="d"
+        Title="Сериализация/Десериализация" Height="113" Width="399" ResizeMode="NoResize">
+	<Grid>
+		<Label Content="Сериализовать или десериализовать объекты всех классов?" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+		<Button x:Name="SerializeButton" Content="Сериализовать" HorizontalAlignment="Right" Margin="0,0,115,10" VerticalAlignment="Bottom" Width="100" Click="SerializeButton_Click"/>
+		<Button x:Name="UnserializeButton" Content="Десериализовать" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="DeserializeButton_Click"/>
+
+	</Grid>
+</Window>

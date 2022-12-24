@@ -23,13 +23,7 @@ namespace lab6OOP
 	public class ScheduleOfTrain
 	{
 		public string StationName { get; set; }
-		/// <summary>
-		/// Время прибытия
-		/// </summary>
 		public string ComingTime { get; set; }
-		/// <summary>
-		/// Время отбытия
-		/// </summary>
 		public string DepartureTime { get; set; }
 
 		public ScheduleOfTrain(string StationName, string ComingTime, string DepartureTime)
@@ -58,12 +52,18 @@ namespace lab6OOP
 				DateTime temp = locomotive.timeOfStart;
 
 				Schedule.stations.Add(scheduleRowFirst);
+				int locoCurrentStationSerialNum = 99999999;
 				for (int i = 1; i < locomotive.Route.Length; i++)
 				{
 					var prevStation = locomotive.Route[i - 1];
 					var curStation = locomotive.Route[i];
 					var distance = DrawTrain.GetDistanceKM(curStation.x, curStation.y, prevStation.x, prevStation.y);
 					var time = locomotive.GetWayTime(timeOfStep, distance);
+					if (locomotive.CurrentStation == curStation)
+						locoCurrentStationSerialNum = i;
+
+					if (locoCurrentStationSerialNum < i)
+						time += locomotive.LateTime;
 					temp = temp.AddMinutes(time * timeOfStep);
 
 					DateTime temp1 = temp.AddMinutes(timeOfStep);

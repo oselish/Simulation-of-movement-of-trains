@@ -33,8 +33,8 @@ namespace lab6OOP
 		public string Speed { get; set; }
 		public int WagonsAmount { get; set; }
 		public int PassengersAmount { get; set; }
-		public string Route { get; set; }
 		public string Incident { get; set; }
+		public string Route { get; set; }
 
 		public void SetColor(string color)
 		{
@@ -86,7 +86,7 @@ namespace lab6OOP
 			WagonsAmount = locomotive.wagons.Count;
 			PassengersAmount = 0;
 			Speed = $"{locomotive.Speed} км/ч";
-			SetColor(locomotive.pointColor.ToString());
+			if (locomotive.pointColor != null) SetColor(locomotive.pointColor.ToString());
 
 			foreach (var wagon in locomotive.wagons)
 				PassengersAmount += wagon.Capacity;

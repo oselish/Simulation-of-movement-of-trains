@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="lab6OOP.Locomotive">
+    <Position X="6" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABQAAACAEAABwBYAAFBGBDAVAAQoB0RAAQBgQBMAElA=</HashCode>
+      <FileName>Locomotive.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CurrentStation" />
+      <Property Name="LastStation" />
+      <Property Name="NextStation" />
+      <Property Name="FirstStation" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="lab6OOP.Passenger">
+    <Position X="0.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QAAACAAAAAAAgAAAAAJEAAACAAABAEACAQAACAAAAAA=</HashCode>
+      <FileName>Passenger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab6OOP.Station">
+    <Position X="9.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>CIAAAAAAAEAAAEDAEKAAAAVAAAAEAEAAAABgAAACEAA=</HashCode>
+      <FileName>Station.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab6OOP.Train">
+    <Position X="3.5" Y="6.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEACAAAAIAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Train.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab6OOP.Wagon">
+    <Position X="3.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAwACAAABAAAAgAABAgAAAQAAAAMAEAAAEAAAAAAAAA=</HashCode>
+      <FileName>Wagon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

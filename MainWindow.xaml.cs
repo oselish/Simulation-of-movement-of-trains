@@ -162,9 +162,9 @@ namespace lab6OOP
 			WagonRandomButton.IsEnabled = WagonAddButton.IsEnabled;
 			WagonsManyRandomButton.IsEnabled = WagonAddButton.IsEnabled;
 			
-			StationDataGrid.UpdateStationDataGrid(sender, e);
-			TrainsDataGrid.UpdateTrainsDataGrid(sender, e);
 			locoDataGrid.UpdateLocoDataGrid(sender, e);
+			TrainsDataGrid.UpdateTrainsDataGrid(sender, e);
+			StationDataGrid.UpdateStationDataGrid(sender, e);
 			Visualize(visualizationCanvas, DateTimeLabel, TIME);
 		}
 
@@ -184,6 +184,27 @@ namespace lab6OOP
 			trainComboBox.ItemsSource = itemsForComboBox;
 		}
 
+		private void SearchByIDTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			ListOfLocomotives.foundLocomotives.Clear();
+			foreach (var loco in ListOfLocomotives.locomotivesForDataGrid)
+			{
+				if (loco.ID.ToLower().Contains(SearchByIDTextBox.Text.ToLower())) //поиск подстроки в строке
+				{
+					ListOfLocomotives.foundLocomotives.Add(loco);
+				}
+			}
+			if (SearchByIDTextBox.Text == "")
+			{
+				locoDataGrid.UpdateLocoDataGrid(null,null);
+				ListOfLocomotives.foundLocomotives.Clear();
+			}
+			else
+			{
+				locoDataGrid.ItemsSource = null;
+				locoDataGrid.ItemsSource = ListOfLocomotives.foundLocomotives;
+			}
+		}
 
 		//-----------------------------------[Вагон]-----------------------------------//
 		private void wagonDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -291,67 +312,10 @@ namespace lab6OOP
 
 
 		//-------------------------------[Сериализация]--------------------------------//
-		/// <summary>
-		/// Сериализация списков
-		/// typeNameForErrorMsg - имя типа данных списка в родительном падеже
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="list"></param>
-		/// <param name="typeNameForErrorMsg"></param>
-		private void Serialize<T>(T list, string typeNameForErrorMsg, string fileName)
+		private void MainWindowSerializeButton_Click(object sender, RoutedEventArgs e)
 		{
-			XmlSerializer xml = new XmlSerializer(typeof(T));
-
-			DateTime nowDateTime = DateTime.Now;
-
-			string year =   (nowDateTime.Year < 10)   ? "0" + nowDateTime.Year.ToString()   : nowDateTime.Year.ToString();
-			string month =  (nowDateTime.Month < 10)  ? "0" + nowDateTime.Month.ToString()  : nowDateTime.Month.ToString();
-			string day =    (nowDateTime.Day < 10)    ? "0" + nowDateTime.Day.ToString()    : nowDateTime.Day.ToString();
-			string hour =   (nowDateTime.Hour < 10)   ? "0" + nowDateTime.Hour.ToString()   : nowDateTime.Hour.ToString();
-			string minute = (nowDateTime.Minute < 10) ? "0" + nowDateTime.Minute.ToString() : nowDateTime.Minute.ToString();
-			string second = (nowDateTime.Second < 10) ? "0" + nowDateTime.Second.ToString() : nowDateTime.Second.ToString();
-
-			string date = $"{day}.{month}.{year}";
-			string time = $"{hour}.{minute}.{second}";
-
-			string nameOfFile = $"[{date} {time}] {fileName}.xml";
-
-			using (FileStream fs = new FileStream(nameOfFile, FileMode.Create))
-			{
-				try
-				{
-					xml.Serialize(fs, list);
-					MessageBox.Show("Сериализация прошла успешно!");
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show($"Не удалось сериализовать список {typeNameForErrorMsg}.\nОписание ошибки:\n{ex.Message}");
-				}
-			}
-		}
-
-		private void LocoSerializeButton_Click(object sender, RoutedEventArgs e)
-		{
-			List<LocoForDataGrid> locomotives = ListOfLocomotives.locomotivesForDataGrid;
-			Serialize(locomotives, "локомотивов", "Локомотивы");
-		}
-
-		private void WagonSerializeButton_Click(object sender, RoutedEventArgs e)
-		{
-			List<WagonForDataGrid> wagons = ListOfWagons.wagonsForDataGrid;
-			Serialize(wagons, "вагонов", "Вагоны");
-		}
-
-		private void TrainSerializeButton_Click(object sender, RoutedEventArgs e)
-		{
-			List<TrainForDataGrid> trains = ListOfTrains.Trains;
-			Serialize(trains, "поездов", "Поезда");
-		}
-
-		private void StationSerializeButton_Click(object sender, RoutedEventArgs e)
-		{
-			List<StationForDataGrid> stations = ListOfStations.stationsForDataGrid;
-			Serialize(stations, "станций", "Станции");
+			var serWindow = new SerializeWindow(this);
+			serWindow.Show();
 		}
 
 		//--------------------------------[Расписание]---------------------------------//
@@ -374,7 +338,7 @@ namespace lab6OOP
 		}
 
 		//-------------------------------[Визуализация]--------------------------------//
-		private static void DrawStations(SolidColorBrush textColor,
+		public static void DrawStations(SolidColorBrush textColor,
 			SolidColorBrush pointColor, Canvas visualizationCanvas)
 		{
 			foreach (var station in Station.stations)
@@ -434,7 +398,7 @@ namespace lab6OOP
 			}
 		}
 
-		private static void DrawRoutes(int lineWidth, SolidColorBrush color, Canvas visualizationCanvas)
+		public static void DrawRoutes(int lineWidth, SolidColorBrush color, Canvas visualizationCanvas)
 		{
 			for (int i = 0; i < Station.routesAmount; i++)
 			{
@@ -495,6 +459,5 @@ namespace lab6OOP
 			e.Row.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(trainForDataGrid.GetColor()));
 			e.Row.Foreground = CustomColor.whiteColor;
 		}
-
 	}
 }

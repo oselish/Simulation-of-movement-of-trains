@@ -15,55 +15,16 @@ namespace lab6OOP
 	[Serializable]
 	public class LocoForDataGrid
 	{
-		/// <summary>
-		/// ID
-		/// </summary>
 		public string ID { get; set; }
-		/// <summary>
-		/// Номер маршрута
-		/// </summary>
 		public int RouteNum { get; set; }
-
-		/// <summary>
-		/// Начальная станция
-		/// </summary>
 		public string FirstStation { get; set; }
-
-		/// <summary>
-		/// Конечная станция
-		/// </summary>
 		public string LastStation { get; set; }
-
-		/// <summary>
-		/// Текущая станция
-		/// </summary>
-		//Текущая станция
 		public string CurrentStation { get; set; }
-
-		/// <summary>
-		/// Скорость
-		/// </summary>
 		public double Speed { get; set; }
-
-		/// <summary>
-		/// Макс. скорость
-		/// </summary>
 		public double MaxSpeed { get; set; }
-
-		/// <summary>
-		/// Тип двигателя
-		/// </summary>
 		public string EngineType { get; set; }
-
-		/// <summary>
-		/// Происшествие
-		/// </summary>
 		public string Incident { get; set; }
-		/// <summary>
-		/// Маршрут
-		/// </summary>
 		public string Route { get; set; }
-
 
 		public LocoForDataGrid(Locomotive locomotive)
 		{
@@ -121,6 +82,8 @@ namespace lab6OOP
 
 		public static List<LocoForDataGrid> locomotivesForDataGrid = new List<LocoForDataGrid>();
 
+		public static List<LocoForDataGrid> foundLocomotives = new List<LocoForDataGrid>(); //локомотивы найденные по ID
+
 		public static void Insert(Locomotive locomotive)
 		{
 			locomotives.Add(locomotive);
@@ -153,29 +116,10 @@ namespace lab6OOP
 				var loco = locomotives[i];
 				if (loco.ID == ID)
 				{
-					//удаление из списков
-					//locomotives.Remove(loco);
-					//locomotivesForDataGrid.Remove(locoFDG);
-
-					//for (int j = 0; j < visualizationCanvas.Children.Count;j++)
-					//{
-						//Ellipse locoPoint = loco.point;
-						//var lcp = loco.point.
-						//Ellipse pointOnCanvas = visualizationCanvas.Children[i] as Ellipse;
-						
-						//if (pointOnCanvas != null)// && visualizationCanvas.Children[i] is Ellipse) //ПРОВЕРКА НА НАЛИЧИЕ НА КАНВАСЕ
-						//if (visualizationCanvas.Children[i] is Ellipse)// && visualizationCanvas.Children[i] is Ellipse) //ПРОВЕРКА НА НАЛИЧИЕ НА КАНВАСЕ
-						//{
-							//MessageBox.Show("Это точка!");
-							//if (pointOnCanvas.Fill == loco.point.Fill)
-							//{
-								bool result1 = locomotives.Remove(loco);
-								bool result2 = locomotivesForDataGrid.Remove(locoFDG);
-								visualizationCanvas.Children.Remove(loco.point);
-								return result1 && result2;
-							//}
-						//}
-					//}
+					bool result1 = locomotives.Remove(loco);
+					bool result2 = locomotivesForDataGrid.Remove(locoFDG);
+					visualizationCanvas.Children.Remove(loco.point);
+					return result1 && result2;
 				}
 			}
 			return false;
@@ -226,6 +170,18 @@ namespace lab6OOP
 
 			locoDataGrid.ItemsSource = null;
 			locoDataGrid.ItemsSource = ListOfLocomotives.locomotivesForDataGrid;
+		}
+		public static void UpdateLocoDataGridSerialize(this DataGrid locoDataGrid, object sender, EventArgs e)
+		{
+			ListOfLocomotives.locomotivesForDataGrid.Clear();
+			foreach (var loco in ListOfLocomotives.locomotives)
+			{
+				ListOfLocomotives.locomotivesForDataGrid.Add(new LocoForDataGrid(loco));
+			}
+
+			locoDataGrid.ItemsSource = null;
+			locoDataGrid.ItemsSource = ListOfLocomotives.locomotivesForDataGrid;
+
 		}
 	}
 }

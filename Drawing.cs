@@ -34,7 +34,7 @@ namespace lab6OOP
 		public static SolidColorBrush whiteColor = new SolidColorBrush(Color.FromRgb(255, 255, 255));
 		public static List<SolidColorBrush> occupiedColors = new List<SolidColorBrush>();
 
-		public static SolidColorBrush RandomColor(List<SolidColorBrush> occupiedColors)
+		public static SolidColorBrush RandomColor()
 		{
 			Random random = new Random();
 		generateColor:

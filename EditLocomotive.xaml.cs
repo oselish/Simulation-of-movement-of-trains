@@ -21,33 +21,6 @@ namespace lab6OOP
 	/// </summary>
 	public partial class EditLocomotive : Window
 	{
-		/*
-		DataGrid locoDataGrid;
-		DataGrid StationDataGrid;
-		Canvas visualizationCanvas;
-		Label DateTimeLabel;
-		public EditLocomotive(DataGrid dataGrid, DataGrid StationDataGrid, Canvas visualizationCanvas, Label DateTimeLabel)
-		{
-			InitializeComponent();
-			locoDataGrid = dataGrid;
-			this.StationDataGrid = StationDataGrid;
-			this.visualizationCanvas = visualizationCanvas;
-			this.DateTimeLabel = DateTimeLabel;
-
-			//Добавление значений в комбобокс "номер маршрута"
-			for (int i = 1; i <= Station.routesAmount; i++)
-			{
-				var tempRoute = Station.GetRoute(i);
-				string routeNum = $"№{i} ({tempRoute[0].Name} - {tempRoute[tempRoute.Length - 1].Name})";
-				routeNumComboBox.Items.Add(routeNum);
-			}
-			//Добавление значений в комбобокс "тип электропоезда"
-			for (int i = 0; i < Locomotive.types.Length; i++)
-			{
-				locoEngineTypeComboBox.Items.Add(Locomotive.types[i]);
-			}
-		}
-		*/
 		MainWindow window;
 		public EditLocomotive(MainWindow window)
 		{
@@ -98,7 +71,7 @@ namespace lab6OOP
 
 				if (ListOfLocomotives.IDisUnique(ID) || ID == selectedLoco.ID)
 				{
-					Locomotive edited = new Locomotive(ID, engineType, routeNum, window.visualizationCanvas);
+					Locomotive edited = new Locomotive(ID, engineType, routeNum, window.visualizationCanvas, CustomColor.RandomColor());
 
 					var confirmEditing = new ConfirmationOfEditingLocomotive(selectedLoco.ID, edited, window);
 					confirmEditing.Show();

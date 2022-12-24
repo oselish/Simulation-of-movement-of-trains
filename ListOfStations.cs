@@ -34,16 +34,17 @@ namespace lab6OOP
 
 		public StationForDataGrid(Station station)
 		{
-			station.UpdateInfo();
 			Name = station.Name;
 			StoppedLocomotivesID = "";
-
-			for (int i = 0; i < station.StoppedLocomotives.Count; i++)
+			if (station.StoppedLocomotives != null)
 			{
-				var loco = station.StoppedLocomotives[i];
-				StoppedLocomotivesID += loco.ID;
-				if (i < station.StoppedLocomotives.Count - 1)
-					StoppedLocomotivesID += ", ";
+				for (int i = 0; i < station.StoppedLocomotives.Count; i++)
+				{
+					var loco = station.StoppedLocomotives[i];
+					StoppedLocomotivesID += loco.ID;
+					if (i < station.StoppedLocomotives.Count - 1)
+						StoppedLocomotivesID += ", ";
+				}
 			}
 			X = station.x;
 			Y = station.y;
@@ -51,16 +52,20 @@ namespace lab6OOP
 
 		public void UpdateData(Station station)
 		{
-			station.UpdateInfo();
 			Name = station.Name;
 			StoppedLocomotivesID = "";
-
-			for (int i = 0; i < station.StoppedLocomotives.Count; i++)
+			if (station.StoppedLocomotives != null)
 			{
-				var loco = station.StoppedLocomotives[i];
-				StoppedLocomotivesID += loco.ID;
-				if (i < station.StoppedLocomotives.Count - 1)
-					StoppedLocomotivesID += ", ";
+				for (int i = 0; i < ListOfLocomotives.locomotives.Count; i++)
+				{
+					var loco = ListOfLocomotives.locomotives[i];
+					if (loco.CurrentStation.Name == station.Name)
+					{
+						if (StoppedLocomotivesID.Length >0)
+							StoppedLocomotivesID += ", ";
+						StoppedLocomotivesID += loco.ID;
+					}
+				}
 			}
 			X = station.x;
 			Y = station.y;
@@ -91,6 +96,15 @@ namespace lab6OOP
 		{
 			for (int i = 0; i < Station.stations.Length; i++)
 				ListOfStations.stationsForDataGrid[i].UpdateData(Station.stations[i]);
+
+			StationDataGrid.ItemsSource = null;
+			StationDataGrid.ItemsSource = ListOfStations.stationsForDataGrid;
+		}
+		public static void UpdateStationDataGridDeserialize(this DataGrid StationDataGrid, object sender, EventArgs e)
+		{
+			ListOfStations.stationsForDataGrid.Clear();
+			for (int i = 0; i < Station.stations.Length; i++)
+				ListOfStations.stationsForDataGrid.Add(new StationForDataGrid(Station.stations[i]));
 
 			StationDataGrid.ItemsSource = null;
 			StationDataGrid.ItemsSource = ListOfStations.stationsForDataGrid;

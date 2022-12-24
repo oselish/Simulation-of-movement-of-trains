@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
- 
+
 
 namespace lab6OOP
 {
@@ -134,15 +135,12 @@ namespace lab6OOP
 
 		ListOfWagons() { }
 	}
-	/*
-	internal class ListOfWagons
+	public partial class DataGridUpdate
 	{
-		//public static List<Wagon> wagons           = new List<Wagon>();
-		//public static List<Station> stations       = new List<Station>();
-		//public static List<Wagon[]> trains         = new List<Wagon[]>();
-		//public static List<WagonForDataGrid> wagonsForDataGrid           = new List<Wagon>();
-		//public static List<StationForDataGrid> stationsForDataGrid       = new List<Station>();
-		//public static List<WagonForDataGrid[]> trainsForDataGrid         = new List<Wagon[]>();
+		public static void UpdateWagonDataGrid(this DataGrid wagonDataGrid, object sender, EventArgs e)
+		{
+			wagonDataGrid.ItemsSource = null;
+			wagonDataGrid.ItemsSource = ListOfWagons.wagonsForDataGrid;
+		}
 	}
-	 */
 }

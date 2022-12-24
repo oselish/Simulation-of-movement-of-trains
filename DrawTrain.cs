@@ -33,16 +33,18 @@ namespace lab6OOP
 		public static List<DT> DateTimeOfTrains = new List<DT>();
 
 		private static MainWindow window;
+		public static Ellipse point;
+
+		public static double x1;
+		public static double y1;
 
 		public static void GoToNextStation(this Locomotive locomotive, double timeStep, MainWindow mainWindow)
 		{
 			window = mainWindow;
-			Ellipse point = null;
 			for (int i = 0; i < window.visualizationCanvas.Children.Count; i++)
 				if (window.visualizationCanvas.Children[i] == locomotive.point)
 					point = window.visualizationCanvas.Children[i] as Ellipse;
 
-			
 
 			var nextStation = locomotive.GetNextStation();
 			if (nextStation != null)
@@ -53,23 +55,16 @@ namespace lab6OOP
 
 				Random random = new Random();
 				int chanceOfLate = random.Next(0, 100);
-				if (chanceOfLate <= 5) //шанс опаздания 5%
-					locomotive.LateTime += random.Next(5, 30);
+				if (chanceOfLate <= 3) //шанс опаздания 5%
+					locomotive.LateTime += random.Next(-15, 15)/60;
 
-				int chanceOfRush = random.Next(0, 100);
-				if (chanceOfRush <= 5) //шанс опережения 5%
-					locomotive.LateTime -= random.Next(5, 15);
+				locomotive.RandomIncident(timeStep);
 
-				window.locoDataGrid.UpdateLocoDataGrid(null, null);
-				window.TrainsDataGrid.UpdateTrainsDataGrid(null, null);
-				window.StationDataGrid.UpdateStationDataGrid(null, null);
 
 				DoubleAnimation animX = new DoubleAnimation();
 				DoubleAnimation animY = new DoubleAnimation();
 
 
-				double x1;
-				double y1;
 				double x2 = nextStation.x - locomotive.x;
 				double y2 = nextStation.y - locomotive.y;
 
@@ -91,17 +86,19 @@ namespace lab6OOP
 
 				double timeOfStep = 60 / timeStep; // 3:1 масштаб времени
 
-				var timeOfWay = locomotive.GetWayTime(timeStep, x1, y1, x2, y2);
+				var timeOfWay = locomotive.GetWayTime(timeStep, x1, y1, x2, y2) + locomotive.LateTime;
+
+				locomotive.Speed = (int)(GetDistanceKM(locomotive.CurrentStation.x, locomotive.CurrentStation.y, nextStation.x, nextStation.y) / (timeOfWay/timeOfStep));
 
 				animX.Duration = TimeSpan.FromSeconds(timeOfWay);
 				animY.Duration = TimeSpan.FromSeconds(timeOfWay);
 				animX.Completed += locomotive.AnimationCompleted;
-				//animX.Completed += window.locoDataGrid.UpdateLocoDataGrid;
-				//animX.Completed += window.TrainsDataGrid.UpdateTrainsDataGrid;
-				//animX.Completed += window.StationDataGrid.UpdateStationDataGrid;
-
 				point.BeginAnimation(Canvas.LeftProperty, animX);
 				point.BeginAnimation(Canvas.TopProperty, animY);
+
+				window.locoDataGrid.UpdateLocoDataGrid(null, null);
+				window.TrainsDataGrid.UpdateTrainsDataGrid(null, null);
+				window.StationDataGrid.UpdateStationDataGrid(null, null);
 			}
 		}
 
@@ -115,7 +112,6 @@ namespace lab6OOP
 			window.locoDataGrid.UpdateLocoDataGrid(null,null);
 			window.TrainsDataGrid.UpdateTrainsDataGrid(null,null);
 			window.StationDataGrid.UpdateStationDataGrid(null,null);
-
 			locomotive.CurrentStation = locomotive.GetNextStation();
 			locomotive.NextStation = locomotive.GetNextStation();
 		}
@@ -133,7 +129,7 @@ namespace lab6OOP
 		{
 			var distance = GetDistanceKM(x1, y1, x2, y2);
 
-			double timeOfWay = distance / locomotive.MaxSpeed * (60/timeOfStep) + (locomotive.LateTime / 60.0);
+			double timeOfWay = distance / locomotive.MaxSpeed * (60/timeOfStep);
 
 			return timeOfWay;
 		}
@@ -151,11 +147,11 @@ namespace lab6OOP
 			Station SPB = Station.GetStation("Санкт-Петербург");
 
 			double distanceMskSpbKM = 700;                                   //расстояние между Москвой и Санкт-Петербургом в км
-			double distanceMskSpbPixels = GetDistancePixels(MSK.x, MSK.y, SPB.x, SPB.y);       //расстояние между Москвой и Санкт-Петербургом в пикселях
+			double distanceMskSpbPixels = GetDistancePixels(MSK.x, MSK.y, SPB.x, SPB.y); //расстояние между Москвой и Санкт-Петербургом в пикселях
 
 			double KMinPixels = distanceMskSpbKM / distanceMskSpbPixels;     //кол-во километров в одном пикселе
 
-			double distanceInPixels = GetDistancePixels(x1, y1, x2, y2);        //расстояние между точками в пикселях 
+			double distanceInPixels = GetDistancePixels(x1, y1, x2, y2);     //расстояние между точками в пикселях 
 			double result = distanceInPixels * KMinPixels;                   //расстояние между точками в км 
 			return result;
 		}

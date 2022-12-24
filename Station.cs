@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace lab6OOP
 {
@@ -60,16 +61,10 @@ namespace lab6OOP
 			}
 		}
 
-		/// <summary>
-		/// Порядковый номер станции
-		/// </summary>
-		private int serialNum;
-		public int SerialNum { get; set; }
-
-		/// <summary>
-		/// Поезд на станции
-		/// </summary>
-		public List<Locomotive> StoppedLocomotives { get; set; }
+		// Поезд на станции
+		[XmlIgnore]
+		[NonSerialized]
+		public List<Locomotive> StoppedLocomotives = new List<Locomotive>();
 
 		~Station() { }
 		Station() { }
@@ -83,22 +78,9 @@ namespace lab6OOP
 			}
 		}
 
-		/// <summary>
-		/// Название станции
-		/// </summary>
+		// Название станции
 		private string name;
 		public string Name { get; set; }
-
-		/// <summary>
-		/// Генерация маршрута
-		/// </summary>
-		/// <param Name="stations"></param>
-		/// <param Name="namesOfStations"></param>
-		//public static void GenerateRoute(Station[] stations, string[] namesOfStations)
-		//{
-		//	for (int i = 0; i < stations.Length; i++)
-		//		stations[i] = new Station(namesOfStations[i]);
-		//}
 
 		private static Station[] GetStations(string[] Names)
 		{
@@ -134,22 +116,6 @@ namespace lab6OOP
 			return tempRoute;
 		}
 
-		/// <summary>
-		/// Отображение маршрута
-		/// </summary>
-		/// <param Name="stations"></param>
-		public static void ShowRoute(Station[] stations)
-		{
-			for (int i = 0; i < stations.Length; i++)
-				Console.WriteLine($"{stations[i].SerialNum + 1}. {stations[i].Name}");
-		}
-
-		public Station(string Name, int SerialNum)
-		{
-			this.Name = Name;
-			this.SerialNum = SerialNum;
-		}
-
 		public Station(string Name)
 		{
 			this.Name = Name;
@@ -158,10 +124,7 @@ namespace lab6OOP
 		}
 
 
-		/// <summary>
-		/// Получение информации о станции
-		/// </summary>
-		/// <returns></returns>
+		// Получение информации о станции
 		public string GetInfo()
 		{
 			string info = "";
@@ -172,7 +135,7 @@ namespace lab6OOP
 				stoppedLocomotivesNums += StoppedLocomotives[i].SerialNum.ToString() + ", ";
 			}
 			stoppedLocomotivesNums += StoppedLocomotives[lastNum].SerialNum.ToString();
-			info += $"Название станции: {Name}\nПорядковый номер станции: {SerialNum}\nПоезда на станции: {stoppedLocomotivesNums}\n";
+			info += $"Название станции: {Name}\nПоезда на станции: {stoppedLocomotivesNums}\n";
 			return info;
 		}
 
@@ -182,21 +145,21 @@ namespace lab6OOP
 
 		private static int[,] defaultPositions =
 		{
-			{830,275},
-			{559,320},
-			{1586,311},
-			{289,332},
-			{439,300},
-			{1351,354},
-			{1129,352},
-			{700,482},
-			{726,226},
-			{583,426},
-			{121,139},
-			{1131,78},
-			{942,263},
-			{720,365},
-			{850,347},
+			{830,275},  //Екатеринбург
+			{559,320},	//Казань
+			{1586,311},	//Красноярск
+			{289,332},	//Москва
+			{439,300},	//Нижний Новгород
+			{1351,354},	//Новосибирск
+			{1129,352},	//Омск
+			{700,482},	//Оренбург
+			{726,226},	//Пермь
+			{583,426},	//Самара
+			{121,139},	//Санкт-Петербург
+			{1131,78},	//Сургут
+			{942,263},	//Тюмень
+			{720,365},	//Уфа
+			{850,347},	//Челябинск
 		};
 
 		private static Dictionary<string, Point> PositionsOfStations = new Dictionary<string, Point>()
@@ -218,5 +181,6 @@ namespace lab6OOP
 			{ "Челябинск",         new Point(  850 + offsetX,  347 + offsetY) }
 
 		};
+
 	}
 }

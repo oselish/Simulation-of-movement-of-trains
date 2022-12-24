@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace lab6OOP
 {
-	/// <summary>
-	/// Пассажирский вагон
-	/// </summary>
-     
+	// Пассажирский вагон
 	public class Passenger : Wagon
 	{
 		public static string[] WagonTypes = { "Вагон-бар", "Вагон-зал", "Купе \"Люкс\"", "Купе СВ", "Купе", "Плацкарт", "Вагон-ресторан" };
@@ -39,34 +36,19 @@ namespace lab6OOP
             { WagonTypes[6], 48 }  //Вагон-ресторан
         };
 
-        /// <summary>
-        /// Вместимость вагона
-        /// </summary>
+        // Вместимость вагона
         private int capacity;
 		public int Capacity { get; set; }
 
-		/// <summary>
-		/// Класс пассажирского вагона (плацкарт, купе, СВ и т.п.)
-		/// </summary>
+		// Класс пассажирского вагона (плацкарт, купе, СВ и т.п.)
 		private string type;
 		public string Type { get; set; }
 
-		/// <summary>
-		/// Поезд к которому прицеплен вагон
-		/// </summary>
-		private Locomotive locomotive;
-		public Locomotive Loco { get; set; }
-
-		/// <summary>
-		/// Получение информации о пассажирском вагоне
-		/// </summary>
-		/// <returns></returns>
-
-		public Passenger(int Capacity, string Type, Locomotive Loco, int SerialNum, string Name) : base(SerialNum, Name)
+		
+        public Passenger(int Capacity, string Type, Locomotive Loco, int SerialNum, string Name) : base(SerialNum, Name)
 		{
 			this.Type = Type;
 			this.Capacity = Capacity;
-			this.locomotive = Loco;
 		}
 
 		public Passenger(string wagonType, Locomotive locomotive, string ID)
@@ -85,10 +67,8 @@ namespace lab6OOP
 			this.Type = wagonType;
 			this.Capacity = wagonCapacity[wagonType];
 			this.Name = "Пассажирский вагон";
-			this.locomotive = locomotive;
 			this.SerialNum = locomotive.wagons.Count;
 			this.ID = ID;
-			//locomotive.wagons.Add(this);
 		}
 
         ~Passenger() { }
